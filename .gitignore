@@ -1,0 +1,4 @@
+/logs/*
+/db/*.sqlite
+/sandbox/*.txt
+/core/*
