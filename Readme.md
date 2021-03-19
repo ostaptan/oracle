@@ -40,6 +40,7 @@
 - Features builder GUI
 - Microservices arch with kafka segmentation
 - Localize configs and dockerize 4 user per user
+- OS-like notifications with log
 
 ### Wouldlikes from philosophical point of view
 
@@ -47,5 +48,6 @@
 - Astrological feature (ex. weather)
 - Collect voice emotion !!!!!!!!!!
 - Private communication system
+- Save Milestones/Tasks for day/week/month (calendar int)
 
 
