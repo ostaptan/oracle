@@ -2,3 +2,6 @@
 /db/*.sqlite
 /sandbox/*.txt
 /core/*
+/sounds/*
+/oracle-env/*
+tmp.mp3

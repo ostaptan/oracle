@@ -1,26 +1,56 @@
 import re
 import sys
 import logging
+import peewee
+from datetime import date
+from db.models import ActiveFiles
+
 from features.speaker import Speaker
+from features.conductor import Conductor
 
 class Writer:
   def __init__(self):
     self.speaker = Speaker()
-    self.recent_file = open(f'./sandbox/default.txt', 'a+')
 
   def speak(self, text, app_name='writer'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
+    logging.basicConfig(
+      filename=f'logs/{app_name}.log',
+      encoding='utf-8',
+      level=logging.INFO
+    )
     logging.info(text)
     self.speaker.text2speech(text)
 
-  def file_open(self, fname):
-    self.speak(f'Opening file {fname} in a sandbox.')
-    f = open(f'./sandbox/{fname}.txt', 'a+')
-    self.recent_file = f
+  def mustdo(self, speech):
+    file = self.wopen('MUSTDO')
+    file.write(speech + "\n")
+    self.wclose(file)
 
-  def file_write(self, speech):
-    self.recent_file.write(speech + "\n")
+  def wopen(self, fname):
+    Conductor().unlock('MUSTDO')
+    fpath = f'./sandbox/{fname}.txt'
+    f = open(fpath, 'a+')
+    ActiveFiles.create(
+      path=fpath,
+      opened=True,
+      created_at=date.today()
+    )
+    return f
 
-  def close_file(self):
-    self.speak(f'Closing file.')
-    self.recent_file.close()
+  def recent_file(self):
+    try:
+      ActiveFiles \
+        .select() \
+        .where(ActiveFiles.created_at >= date.today()) \
+        .order_by(ActiveFiles.id.desc()) \
+        .get()
+    except peewee.DoesNotExist:
+      return None
+
+  def wclose(self, f):
+    f.close()
+    Conductor().lock('MUSTDO')
+    recent_rec = self.recent_file()
+    recent_rec.opened = False
+    recent_rec.save()
+

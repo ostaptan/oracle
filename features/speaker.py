@@ -2,6 +2,7 @@ import speech_recognition as sr
 import pyaudio
 import random
 import os
+import time
 from gtts import gTTS
 from playsound import playsound
 import sys
@@ -68,9 +69,12 @@ class Speaker:
     """
     try:
       myobj = gTTS(text=text, lang=lang, slow=False)
-      myobj.save("tmp.mp3")
-      playsound("tmp.mp3")
-      os.remove("tmp.mp3")
+      filename_str = '-'.join(text.split(' ')[:3])
+      print(filename_str)
+      filename_ascii = '.'.join(str(ord(c)) for c in filename_str) + '_' + time.strftime("%d%m%Y%H%M%S")
+      myobj.save(f'sounds/{filename_ascii}')
+      playsound(f'sounds/{filename_ascii}')
+      # os.remove("tmp.mp3")
       return True
     except Exception as e:
       mytext = "Sorry I couldn't understand."

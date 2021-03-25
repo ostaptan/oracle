@@ -6,19 +6,29 @@ from features.speaker import Speaker
 from features.radio import Radio
 from features.searcher import Searcher
 from features.writer import Writer
-from features.performer import Performer
+from features.conductor import Conductor
 
 class Mainframe:
   def __init__(self):
     self.speaker = Speaker()
 
   def speak(self, text, app_name='mainframe'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
+    root_logger= logging.getLogger()
+    root_logger.setLevel(logging.INFO) # or whatever
+    handler = logging.FileHandler(f'logs/{app_name}.log', 'w', 'utf-8') # or whatever
+    handler.setFormatter(logging.Formatter('%(name)s %(message)s')) # or whatever
+    root_logger.addHandler(handler)
+    # logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
     self.speaker.text2speech(text)
 
   def write(self, text, app_name='mainframe'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
+    root_logger= logging.getLogger()
+    root_logger.setLevel(logging.INFO) # or whatever
+    handler = logging.FileHandler(f'logs/{app_name}.log', 'w', 'utf-8') # or whatever
+    handler.setFormatter(logging.Formatter('%(name)s %(message)s')) # or whatever
+    root_logger.addHandler(handler)
+    # logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
 
   def main(self):
@@ -29,8 +39,8 @@ class Mainframe:
       speech = self.speaker.mic_input()
 
       # should be replaced by neural net
-      if re.search('oracle', speech):
-        self.speak(f'Yes.')
+      if re.search('oracle|hello|hey|', speech):
+        self.speak('Yes.')
 
       # ---
       # radio section
@@ -47,8 +57,14 @@ class Mainframe:
       if re.search('tell aphorism|quote', speech):
         Radio().aphorism()
 
+      if re.search('a poem', speech):
+        Radio().poem()
+
       if re.search('tell weather', speech):
         Radio().weather()
+
+      if re.search('dialectica', speech):
+        Radio().read_dial()
 
       # ---
       # searcher section
@@ -68,22 +84,47 @@ class Mainframe:
       # ---
       # writer section
       # must have shared memory to operate in one file
-      if re.search('open|create file', speech):
-        fname = speech.split('file')[-1].strip()
-        Writer().file_open(fname)
+      # still not working without net
+      #
+      # not need to name files ))
 
-      if re.search('write in file', speech):
-        Writer().file_write(speech) # not working that good
+      # if re.search('open|create file', speech):
+      #   fname = speech.split('file')[-1].strip()
+      #   Writer().file_open(fname)
 
-      if re.search('close file', speech):
-        Writer().close_file()
+      if re.search('fix', speech):
+        Writer().mustdo(speech)
+
+      #
+      ###
+
+      #
+      #
+      ##
+      #
+      #
+
+      recent_rec = Writer().recent_file()
+      if recent_rec and recent_rec.opened:
+        f = open(recent_rec.path, 'a+')
+        f.write(f, speech + "\n")
+
+        if re.search('end', speech):
+          Writer().wclose(f)
 
       # ---
-      # performer section
+      # conductor section
       #
       if re.search('open|launch|start application', speech):
         app_name = speech.split('application')[-1].strip()
-        Performer().launch(app_name)
+        Conductor().launch(app_name)
+
+      if re.search('unlock', speech):
+        Conductor().unlock('MUSTDO')
+
+      if re.search('lock', speech):
+        Conductor().lock('MUSTDO')
+
 
       # ---
       # utils section

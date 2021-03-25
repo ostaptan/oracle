@@ -1,4 +1,6 @@
 import random
+import requests
+import justext
 import csv
 import os
 import re
@@ -18,10 +20,10 @@ class Radio:
   def __init__(self):
     self.speaker = Speaker()
 
-  # def speak_ua(self, text, app_name='radio'):
-  #   logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-  #   logging.info(text)
-  #   self.speaker.text2speech(text, lang='uk')
+  def speak_ua(self, text, app_name='radio'):
+    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
+    logging.info(text)
+    self.speaker.text2speech(text, lang='uk')
 
   def write(self, text, app_name='radio'):
     logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
@@ -42,6 +44,15 @@ class Radio:
       chosen_row = random.choice(list(reader))
       quote, author, tokens = chosen_row[0], chosen_row[1], chosen_row[2]
       self.speak(quote)
+      self.speak(f'Author {author}.')
+
+  def poem(self):
+    with open('/Users/ostaptan/Datasets/poem_dataset.csv', 'r') as file:
+      reader = csv.reader(file)
+      chosen_row = random.choice(list(reader))
+      poem, author, title = chosen_row[4], chosen_row[1], chosen_row[2]
+      self.speak(title)
+      self.speak(poem)
       self.speak(f'Author {author}.')
 
   def joke(self):
@@ -67,7 +78,10 @@ class Radio:
         weather = ', temperature'.join(weather_res.split('temperature'))
         self.speak(weather)
     else:
-      Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())
+      try:
+        Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())
+      except IndexError:
+        pass
       weather = ', temperature'.join(weather_res.split('temperature'))
       self.speak(weather)
 
@@ -86,6 +100,17 @@ class Radio:
       self.speak(f'Today is {tdate}')
       self.speak(f"It's {ttime} o'clock")
 
+  def read_dial(self):
+    response = requests.get(f'https://pidru4niki.com/15780506/filosofiya/osnovni_zakoni_dialektiki_svitoglyadne_metodologichne_znachennya')
+    paragraphs = justext.justext(response.content, justext.get_stoplist("Ukrainian"))
+    prs = [pp for pp in paragraphs if not pp.is_boilerplate]
+    chosen_p = random.choice(list(prs))
+    self.speak_ua(chosen_p.text)
+    # print(len(paragraphs))
+    # for paragraph in paragraphs:
+    #   if not paragraph.is_boilerplate:
+    #     self.speak_ua(paragraph.text)
+
 
   def scenario(self):
     self.greeting()
@@ -95,6 +120,10 @@ class Radio:
     self.aphorism()
     self.speak('A joke:')
     self.joke()
+    self.speak('A poem:')
+    self.poem()
+    self.speak('Dialectica:')
+    self.read_dial()
 
 if __name__ == "__main__":
   disc = Radio()

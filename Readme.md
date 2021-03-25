@@ -8,8 +8,10 @@
 
 - joke(), e.g.: *'tell a joke'*
 - datetime_now(), e.g.: *'what|tell time'*
-- quote(), e.g.: *'tell aphorism|quote'*
+- aphorism(), e.g.: *'tell aphorism|quote'*
 - weather(), e.g.: *'tell weather'*
+- poem(), e.g.: *'tell a poem'*
+- read_dial(), e.g.: *'dialectica'*
 
 #### Searcher
 
@@ -19,13 +21,13 @@
 
 #### Writer
 
-- close_file(), e.g.: *'close file'*
-- file_open('essay'), e.g.: *'open|create file'*
-- file_write('speech'), e.g.: *'write in file'*
+- mustdo(), e.g.: *'fix that I must go walking'*
 
-#### Performer
+#### Conductor
 
 - launch('sublime'), e.g.: *'open|launch|start application'*
+- lock(), e.g.: *'lock data'*
+- unlock(), e.g.: *'unlock data'*
 
 #### Utils
 
