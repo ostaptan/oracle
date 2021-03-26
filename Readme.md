@@ -46,7 +46,7 @@ python3 mainframe.py
 
 #### Writer
 
-- mustdo(), e.g.: *'fix that I must go walking'*
+- mustdo(), e.g.: *'fix time to build a shelter in the forest'*
 
 #### Conductor
 
@@ -73,8 +73,7 @@ python3 mainframe.py
 
 - Interrupt any current command
 - Astrological feature (ex. weather)
-- Collect voice emotion !!!!!!!!!!
+- Collect voice emotion
 - Private communication system
-- Save Milestones/Tasks for day/week/month (calendar int)
 
 
