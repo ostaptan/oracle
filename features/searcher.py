@@ -3,6 +3,9 @@ import re
 import subprocess
 import wikipedia
 import logging
+import peewee
+
+from datetime import date
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen
 from features.speaker import Speaker
