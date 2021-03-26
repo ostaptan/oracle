@@ -6,6 +6,7 @@ cffi==1.14.5
 chardet==4.0.0
 click==7.1.2
 cryptography==3.4.7
+dbus-python==1.2.16
 decorator==4.4.2
 filelock==3.0.12
 gTTS==2.2.2
@@ -16,6 +17,7 @@ lazyme==0.0.23
 librosa==0.8.0
 llvmlite==0.36.0
 lxml==4.6.3
+notify2==0.3.1
 numba==0.53.0
 numpy==1.20.1
 packaging==20.9
