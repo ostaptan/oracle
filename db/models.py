@@ -7,7 +7,7 @@ class BaseModel(Model):
     database = db
 
 class ActiveFiles(BaseModel):
-  path = CharField(unique=True)
+  path = CharField()
   opened = BooleanField()
   created_at = DateField()
 

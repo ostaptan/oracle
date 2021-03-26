@@ -19,13 +19,25 @@ class Conductor:
   def __init__(self):
     self.speaker = Speaker()
 
-  def speak(self, text, app_name='conductor'):
+  def __speak(self, text, app_name='conductor'):
     logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
     self.speaker.text2speech(text)
 
+  def __get_key(self):
+    key_path = 'db/fernet.key'
+
+    if os.path.exists(key_path):
+      with open(key_path, 'rb') as filekey:
+        return filekey.read()
+    else:
+      with open(key_path, 'wb') as filekey:
+        key = Fernet.generate_key()
+        filekey.write(key)
+        return key
+
   def launch(self, app_name):
-    self.speak(f'Opening {app_name}')
+    self.__speak(f'Opening {app_name}')
     app_path = self.APPSTORE.get(app_name)
     subprocess.call(["/bin/bash","-c",f'open {app_path}'])
 
@@ -53,15 +65,4 @@ class Conductor:
     with open(f'sandbox/{fname}.txt', 'wb') as encrypted_file:
       encrypted_file.write(encrypted)
 
-  def __get_key(self):
-    key_path = 'db/fernet.key'
-
-    if os.path.exists(key_path):
-      with open(key_path, 'rb') as filekey:
-        return filekey.read()
-    else:
-      with open(key_path, 'wb') as filekey:
-        key = Fernet.generate_key()
-        filekey.write(key)
-        return key
 

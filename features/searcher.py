@@ -12,7 +12,7 @@ class Searcher:
   def __init__(self):
     self.speaker = Speaker()
 
-  def speak(self, text, app_name='searcher'):
+  def __speak(self, text, app_name='searcher'):
     logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
     self.speaker.text2speech(text)
@@ -26,7 +26,7 @@ class Searcher:
       soup_page = soup(xml_page, "xml")
       news_list = soup_page.findAll("item")
       for news in news_list[:3]:
-        self.speak(str(news.title.text.encode('utf-8'))[1:])
+        self.__speak(str(news.title.text.encode('utf-8'))[1:])
     except Exception as e:
       print(e)
       return False
@@ -40,7 +40,7 @@ class Searcher:
       soup_page = soup(xml_page, "xml")
       news_list = soup_page.findAll("item")
       for news in news_list[:3]:
-        self.speak(str(news.title.text.encode('utf-8'))[1:])
+        self.__speak(str(news.title.text.encode('utf-8'))[1:])
     except Exception as e:
       print(e)
       return False
@@ -51,17 +51,17 @@ class Searcher:
     except peewee.DoesNotExist:
       ex_def = None
     if ex_def:
-      self.speak(f'Already told you about {topic}')
-      self.speak(ex_def.text)
+      self.__speak(f'Already told you about {topic}')
+      self.__speak(ex_def.text)
     else:
-      self.speak(f'Searching in wikipedia about {topic}')
+      self.__speak(f'Searching in wikipedia about {topic}')
       try:
         wiki_resp = wikipedia.page(topic)
         res = str(wiki_resp.content[:500].encode('utf-8'))
         resp = re.sub('[^a-zA-Z.\d\s]', '', res)[1:]
         Definitions.create(topic=topic, text=resp, created_at=date.today())
-        self.speak(resp)
+        self.__speak(resp)
       except wikipedia.exceptions.PageError:
         Definitions.create(topic=topic, text='Cannot find anything', created_at=date.today())
-        self.speak(f'Cannot find anything about {topic}')
+        self.__speak(f'Cannot find anything about {topic}')
 

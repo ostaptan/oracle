@@ -1,7 +1,11 @@
 import sys
 import re
+import os
 import multiprocessing
 import logging
+import notify2
+
+from features.listener import Listener
 from features.speaker import Speaker
 from features.radio import Radio
 from features.searcher import Searcher
@@ -10,37 +14,28 @@ from features.conductor import Conductor
 
 class Mainframe:
   def __init__(self):
+    self.listener = Listener()
     self.speaker = Speaker()
 
-  def speak(self, text, app_name='mainframe'):
-    root_logger= logging.getLogger()
-    root_logger.setLevel(logging.INFO) # or whatever
-    handler = logging.FileHandler(f'logs/{app_name}.log', 'w', 'utf-8') # or whatever
-    handler.setFormatter(logging.Formatter('%(name)s %(message)s')) # or whatever
-    root_logger.addHandler(handler)
-    # logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
+  def __speak(self, text, app_name='mainframe'):
+    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
     self.speaker.text2speech(text)
 
-  def write(self, text, app_name='mainframe'):
-    root_logger= logging.getLogger()
-    root_logger.setLevel(logging.INFO) # or whatever
-    handler = logging.FileHandler(f'logs/{app_name}.log', 'w', 'utf-8') # or whatever
-    handler.setFormatter(logging.Formatter('%(name)s %(message)s')) # or whatever
-    root_logger.addHandler(handler)
-    # logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
+  def __write(self, text, app_name='mainframe'):
+    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
 
   def main(self):
-    self.write(text='-------------------------------------------------------------')
-    self.speak(text="γνῶθι σεαυτόν")
+    self.__write('-------------------------------------------------------------')
+    self.__speak("γνῶθι σεαυτόν")
 
     while True:
-      speech = self.speaker.mic_input()
+      speech = self.listener.mic_input()
 
       # should be replaced by neural net
       if re.search('oracle|hello|hey|', speech):
-        self.speak('Yes.')
+        self.__speak('Yes.')
 
       # ---
       # radio section
@@ -130,7 +125,7 @@ class Mainframe:
       # utils section
       #
       if re.search('stop|finish|shutdown', speech):
-        self.speak('Exiting. Good bye.')
+        self.__speak('Exiting. Good bye.')
         sys.exit()
 
 

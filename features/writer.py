@@ -12,7 +12,7 @@ class Writer:
   def __init__(self):
     self.speaker = Speaker()
 
-  def speak(self, text, app_name='writer'):
+  def __speak(self, text, app_name='writer'):
     logging.basicConfig(
       filename=f'logs/{app_name}.log',
       encoding='utf-8',
@@ -20,6 +20,16 @@ class Writer:
     )
     logging.info(text)
     self.speaker.text2speech(text)
+
+  def recent_file(self):
+    try:
+      ActiveFiles \
+        .select() \
+        .where(ActiveFiles.created_at >= date.today()) \
+        .order_by(ActiveFiles.id.desc()) \
+        .get()
+    except peewee.DoesNotExist:
+      return None
 
   def mustdo(self, speech):
     file = self.wopen('MUSTDO')
@@ -37,20 +47,12 @@ class Writer:
     )
     return f
 
-  def recent_file(self):
-    try:
-      ActiveFiles \
-        .select() \
-        .where(ActiveFiles.created_at >= date.today()) \
-        .order_by(ActiveFiles.id.desc()) \
-        .get()
-    except peewee.DoesNotExist:
-      return None
-
   def wclose(self, f):
+    self.__speak('Text fixed in files.')
     f.close()
     Conductor().lock('MUSTDO')
     recent_rec = self.recent_file()
-    recent_rec.opened = False
-    recent_rec.save()
+    if recent_rec:
+      recent_rec.opened = False
+      recent_rec.save()
 
