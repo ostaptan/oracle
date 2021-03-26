@@ -1,6 +1,7 @@
 import os
 import sys
 import requests
+import cryptography
 import justext
 import logging
 import subprocess
@@ -42,14 +43,17 @@ class Conductor:
     subprocess.call(["/bin/bash","-c",f'open {app_path}'])
 
   def unlock(self, fname):
-    key = self.__get_key()
-    fernet = Fernet(key)
+    try:
+      key = self.__get_key()
+      fernet = Fernet(key)
 
-    with open(f'sandbox/{fname}.txt', 'rb') as enc_file:
-      encrypted = enc_file.read()
+      with open(f'sandbox/{fname}.txt', 'rb') as enc_file:
+        encrypted = enc_file.read()
 
-    decrypted = fernet.decrypt(encrypted)
-    print(decrypted)
+      decrypted = fernet.decrypt(encrypted)
+    except cryptography.fernet.InvalidToken:
+      decrypted = encrypted
+
     with open(f'sandbox/{fname}.txt', 'wb') as dec_file:
       dec_file.write(decrypted)
 
