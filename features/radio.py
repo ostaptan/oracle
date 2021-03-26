@@ -9,12 +9,12 @@ import logging
 import time
 import pyjokes
 import peewee
+import datetime
 from datetime import date
 from features.speaker import Speaker
 from db.models import Weathers
 
-import src.weather_m as wea
-import src.clock_m as clock
+import src.weather_puller as wp
 
 class Radio:
   def __init__(self):
@@ -72,8 +72,9 @@ class Radio:
     except peewee.DoesNotExist:
       today_w = None
 
-    weather_res = wea.get_data(city='Lviv')
-    w_data = re.findall("[+-]?\d+\.\d+", weather_res)
+    weather_speech = wp.main(city='Lviv')
+    w_data = re.findall(r"[-+]?\d*\.\d+|\d+", weather_speech)
+
     if today_w:
       self.__write(f'Last recorded temp: {today_w.temperature} and wind: {today_w.wind}')
       if today_w.temperature == float(w_data[0]) and today_w.wind == float(w_data[1]):
@@ -82,19 +83,17 @@ class Radio:
       else:
         Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())
         self.__speak('The weather has changed.')
-        weather = ', temperature'.join(weather_res.split('temperature'))
-        self.__speak(weather)
+        self.__speak(weather_speech)
     else:
       try:
         Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())
       except IndexError:
         pass
-      weather = ', temperature'.join(weather_res.split('temperature'))
-      self.__speak(weather)
+      self.__speak(weather_speech)
 
   def datetime_now(self):
-    tdate = clock.date()
-    ttime = clock.time()
+    tdate = datetime.datetime.now().strftime("%b %d %Y")
+    ttime = datetime.datetime.now().strftime("%H:%M")
 
     try:
       today_w = Weathers.select().where(Weathers.created_at >= date.today()).order_by(Weathers.id.desc()).get()

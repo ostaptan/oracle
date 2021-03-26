@@ -44,19 +44,19 @@ class Mainframe:
       if re.search('radio', speech):
         Radio().scenario()
 
-      if re.search('tell a joke', speech):
+      if re.search('a joke', speech):
         Radio().joke()
 
       if re.search('what|tell time', speech):
         Radio().datetime_now()
 
-      if re.search('tell aphorism|quote', speech):
+      if re.search('aphorism|quote', speech):
         Radio().aphorism()
 
       if re.search('a poem', speech):
         Radio().poem()
 
-      if re.search('tell weather', speech):
+      if re.search('weather', speech):
         Radio().weather()
 
       if re.search('dialectica', speech):
@@ -130,14 +130,15 @@ class Mainframe:
         sys.exit()
 
 
-schedule.every().hour.do(Mainframe().main())
+# schedule.every(1).to(2).hour.do(Mainframe().main())
 # schedule.every().hour.do(main)
 # schedule.every().hour.do(main)
 
 if __name__ == "__main__":
-  # mf = Mainframe()
-  # mf.main()
+  mf = Mainframe()
+  mf.main()
+  # Radio().datetime_now()
 
-  while True:
-    schedule.run_pending()
-    time.sleep(1)
+  # while True:
+  #   schedule.run_pending()
+  #   time.sleep(1)
