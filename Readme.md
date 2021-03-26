@@ -21,10 +21,10 @@ Install required dependencies with:
 pip install -r requirements.txt
 ```
 
-Run:
+Run in background (will ping you each hour):
 
 ```sh
-python3 mainframe.py
+python3 mainframe.py&
 ```
 
 ## Features

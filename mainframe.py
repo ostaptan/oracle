@@ -4,6 +4,7 @@ import os
 import multiprocessing
 import logging
 import notify2
+import schedule
 
 from features.listener import Listener
 from features.speaker import Speaker
@@ -129,14 +130,14 @@ class Mainframe:
         sys.exit()
 
 
-# schedule.every().hour.do(Mainframe().main())
+schedule.every().hour.do(Mainframe().main())
 # schedule.every().hour.do(main)
 # schedule.every().hour.do(main)
 
 if __name__ == "__main__":
-  mf = Mainframe()
-  mf.main()
+  # mf = Mainframe()
+  # mf.main()
 
-  # while True:
-  #   schedule.run_pending()
-  #   time.sleep(1)
+  while True:
+    schedule.run_pending()
+    time.sleep(1)
