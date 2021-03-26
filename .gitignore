@@ -1,5 +1,6 @@
 /logs/*
 /db/*.sqlite
+/db/*.key
 /sandbox/*.txt
 /core/*
 /sounds/*
