@@ -1,8 +1,33 @@
 # Oracle
 
-## Mainframe
+## Mainframe Usage
 
-### Features
+You need to install **Python version 3.9**
+
+Create virtual environment with:
+
+```sh
+python3 -m venv oracle-env
+```
+
+Activate virtual environment with:
+
+```sh
+. ./oracle-env/bin/activate
+```
+Install required dependencies with:
+
+```sh
+pip install -r requirements.txt
+```
+
+Run:
+
+```sh
+python3 mainframe.py
+```
+
+## Features
 
 #### Radio
 
