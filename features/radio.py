@@ -46,7 +46,7 @@ class Radio:
     self.__speak(text)
 
   def aphorism(self):
-    with open('/Users/ostaptan/Datasets/quotes_dataset.csv', 'r') as file:
+    with open('./data/quotes_dataset.csv', 'r') as file:
       reader = csv.reader(file)
       chosen_row = random.choice(list(reader))
       quote, author, tokens = chosen_row[0], chosen_row[1], chosen_row[2]
@@ -54,7 +54,7 @@ class Radio:
       self.__speak(f'Author {author}.')
 
   def poem(self):
-    with open('/Users/ostaptan/Datasets/poem_dataset.csv', 'r') as file:
+    with open('./data/poem_dataset.csv', 'r') as file:
       reader = csv.reader(file)
       chosen_row = random.choice(list(reader))
       poem, author, title = chosen_row[4], chosen_row[1], chosen_row[2]
