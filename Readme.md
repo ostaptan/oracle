@@ -1,6 +1,4 @@
-# Oracle
-
-## Mainframe Usage
+# Oracle - "Matrix & 3301 inspired assistant"
 
 You need to install **Python version 3.9**
 
@@ -20,6 +18,8 @@ Install required dependencies with:
 ```sh
 pip install -r requirements.txt
 ```
+
+## Mainframe Usage
 
 Run:
 
