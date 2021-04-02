@@ -21,10 +21,16 @@ Install required dependencies with:
 pip install -r requirements.txt
 ```
 
-Run in background (will ping you each hour):
+Run:
 
 ```sh
-python3 mainframe.py&
+python3 mainframe.py
+```
+
+Run private mode (voiceless input):
+
+```sh
+python3 mainframe.py --private
 ```
 
 ## Features
@@ -57,6 +63,7 @@ python3 mainframe.py&
 #### Utils
 
 - sys.exit(), e.g.: *'stop|finish|shutdown'*
+- time.sleep(), e.g.: *'sleep'*
 
 ### Future imporvements from dev point of view
 
@@ -67,13 +74,10 @@ python3 mainframe.py&
 - Features builder GUI
 - Microservices arch with kafka segmentation
 - Localize configs and dockerize 4 user per user
-- OS-like notifications with log
 
 ### Wouldlikes from philosophical point of view
 
 - Interrupt any current command
-- Astrological feature (ex. weather)
 - Collect voice emotion
-- Private communication system
 
 
