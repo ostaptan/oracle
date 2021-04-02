@@ -20,7 +20,7 @@ class Speaker:
     try:
       myobj = gTTS(text=text, lang=lang, slow=False)
       filename_str = '-'.join(text.split(' ')[:3])
-      print(filename_str)
+      print(text)
       filename_ascii = '.'.join(str(ord(c)) for c in filename_str) + '_' + time.strftime("%d%m%Y%H%M%S")
       myobj.save(f'sounds/{filename_ascii}')
       playsound(f'sounds/{filename_ascii}')
