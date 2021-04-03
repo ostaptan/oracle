@@ -10,16 +10,7 @@ from features.conductor import Conductor
 
 class Writer:
   def __init__(self):
-    self.speaker = Speaker()
-
-  def __speak(self, text, app_name='writer'):
-    logging.basicConfig(
-      filename=f'logs/{app_name}.log',
-      encoding='utf-8',
-      level=logging.INFO
-    )
-    logging.info(text)
-    self.speaker.text2speech(text)
+    self.speaker = Speaker('writer')
 
   def recent_file(self):
     try:
@@ -48,7 +39,7 @@ class Writer:
     return f
 
   def wclose(self, f):
-    self.__speak('Text fixed in files.')
+    self.speaker.tell('Text fixed in files.')
     f.close()
     Conductor().lock('MUSTDO')
     recent_rec = self.recent_file()

@@ -18,21 +18,7 @@ import src.weather_puller as wp
 
 class Radio:
   def __init__(self):
-    self.speaker = Speaker()
-
-  def __speak_ua(self, text, app_name='radio'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
-    self.speaker.text2speech(text, lang='uk')
-
-  def __write(self, text, app_name='radio'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
-
-  def __speak(self, text, app_name='radio'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
-    self.speaker.text2speech(text)
+    self.speaker = Speaker('mainframe')
 
   def __notify(self, title, text):
     os.system("""
@@ -43,28 +29,28 @@ class Radio:
     sys_name = os.getcwd().split('/')[2]
     text = f'Welcome, {sys_name}!'
     self.__notify('Oracle', 'γνῶθι σεαυτόν! '+text)
-    self.__speak(text)
+    self.speaker.tell(text)
 
   def aphorism(self):
     with open('./data/quotes_dataset.csv', 'r') as file:
       reader = csv.reader(file)
       chosen_row = random.choice(list(reader))
       quote, author, tokens = chosen_row[0], chosen_row[1], chosen_row[2]
-      self.__speak(quote)
-      self.__speak(f'Author {author}.')
+      self.speaker.tell(quote)
+      self.speaker.tell(f'Author {author}.')
 
   def poem(self):
     with open('./data/poem_dataset.csv', 'r') as file:
       reader = csv.reader(file)
       chosen_row = random.choice(list(reader))
       poem, author, title = chosen_row[4], chosen_row[1], chosen_row[2]
-      self.__speak(title)
-      self.__speak(poem)
-      self.__speak(f'Author {author}.')
+      self.speaker.tell(title)
+      self.speaker.tell(poem)
+      self.speaker.tell(f'Author {author}.')
 
   def joke(self):
     joke = pyjokes.get_joke(language='en', category='all')
-    self.__speak(joke)
+    self.speaker.tell(joke)
 
   def weather(self):
     try:
@@ -76,20 +62,20 @@ class Radio:
     w_data = re.findall(r"[-+]?\d*\.\d+|\d+", weather_speech)
 
     if today_w:
-      self.__write(f'Last recorded temp: {today_w.temperature} and wind: {today_w.wind}')
+      self.speaker.write(f'Last recorded temp: {today_w.temperature} and wind: {today_w.wind}')
       if today_w.temperature == float(w_data[0]) and today_w.wind == float(w_data[1]):
-        self.__write('Weather havent changed.')
+        self.speaker.write('Weather havent changed.')
         return
       else:
         Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())
-        self.__speak('The weather has changed.')
-        self.__speak(weather_speech)
+        self.speaker.tell('The weather has changed.')
+        self.speaker.tell(weather_speech)
     else:
       try:
         Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())
       except IndexError:
         pass
-      self.__speak(weather_speech)
+      self.speaker.tell(weather_speech)
 
   def datetime_now(self):
     tdate = datetime.datetime.now().strftime("%b %d %Y")
@@ -101,30 +87,30 @@ class Radio:
       today_w = None
 
     if today_w:
-      self.__speak(f"It's {ttime} o'clock")
+      self.speaker.tell(f"It's {ttime} o'clock")
     else:
-      self.__speak(f'Today is {tdate}')
-      self.__speak(f"It's {ttime} o'clock")
+      self.speaker.tell(f'Today is {tdate}')
+      self.speaker.tell(f"It's {ttime} o'clock")
 
   def read_dial(self):
     response = requests.get(f'https://pidru4niki.com/15780506/filosofiya/osnovni_zakoni_dialektiki_svitoglyadne_metodologichne_znachennya')
     paragraphs = justext.justext(response.content, justext.get_stoplist("Ukrainian"))
     prs = [pp for pp in paragraphs if not pp.is_boilerplate]
     chosen_p = random.choice(list(prs))
-    self.__speak_ua(chosen_p.text)
+    self.speaker.tell_ua(chosen_p.text)
 
   def scenario(self):
     self.greeting()
     self.datetime_now()
     self.weather()
 
-    self.__speak('Aphorism:')
+    self.speaker.tell('Aphorism:')
     self.aphorism()
-    self.__speak('A joke:')
+    self.speaker.tell('A joke:')
     self.joke()
-    self.__speak('A poem:')
+    self.speaker.tell('A poem:')
     self.poem()
-    self.__speak('Dialectica:')
+    self.speaker.tell_ua('Елемент діалектики:')
     self.read_dial()
 
 if __name__ == "__main__":

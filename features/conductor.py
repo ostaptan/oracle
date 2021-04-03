@@ -18,12 +18,7 @@ class Conductor:
   }
 
   def __init__(self):
-    self.speaker = Speaker()
-
-  def __speak(self, text, app_name='conductor'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
-    self.speaker.text2speech(text)
+    self.speaker = Speaker('conductor')
 
   def __get_key(self):
     key_path = 'db/fernet.key'
@@ -38,7 +33,7 @@ class Conductor:
         return key
 
   def launch(self, app_name):
-    self.__speak(f'Opening {app_name}')
+    self.speaker.tell(f'Opening {app_name}')
     app_path = self.APPSTORE.get(app_name)
     subprocess.call(["/bin/bash","-c",f'open {app_path}'])
 

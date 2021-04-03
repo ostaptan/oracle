@@ -14,19 +14,14 @@ from features.conductor import Conductor
 class Commander:
   def __init__(self):
     self.listener = Listener()
-    self.speaker = Speaker()
-
-  def __speak(self, text, app_name='mainframe'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
-    self.speaker.text2speech(text)
+    self.speaker = Speaker('mainframe')
 
   def do(self, speech):
     #
     # will be replaced by neural net
     #
     if re.search('oracle|hello|hey|', speech):
-      self.__speak('Yes.')
+      self.speaker.tell('Yes.')
 
     # ---
     # radio section
@@ -107,15 +102,17 @@ class Commander:
     # utils section
     #
     if re.search('stop|finish|shutdown', speech):
-      self.__speak('Exiting. Good bye.')
+      self.speaker.tell('Exiting. Good bye.')
       sys.exit()
 
     if re.search('sleep', speech):
       tn = time.strftime("%H:%M:%S", time.localtime())
-      self.__speak(f'Starting sleeping phase for an hour at {tn}')
+      self.speaker.tell(f'Starting sleeping phase for an hour at {tn}')
       # ---
       # sleep zone
       time.sleep(float(60*60)) # 60 secs in 60 mins
       #
       tn = time.strftime("%H:%M:%S", time.localtime())
-      self.__speak('Awake at {tn}!')
+      self.speaker.tell(f'Awake at {tn}!')
+      Radio().greeting()
+

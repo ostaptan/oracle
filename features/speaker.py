@@ -1,13 +1,31 @@
 import random
 import os
 import time
+import logging
 import sys
 
 from gtts import gTTS
 from playsound import playsound
 
 class Speaker:
-  def text2speech(self, text, lang='en'):
+  def __init__(self, app_name)
+    self.app_name = app_name
+
+  def write(self, text):
+    logging.basicConfig(filename=f'logs/{self.app_name}.log', encoding='utf-8', level=logging.INFO)
+    logging.info(text)
+
+  def tell_ua(self, text):
+    logging.basicConfig(filename=f'logs/{self.app_name}.log', encoding='utf-8', level=logging.INFO)
+    logging.info(text)
+    self.__text2speech(text, lang='uk')
+
+  def tell(self, text):
+    logging.basicConfig(filename=f'logs/{self.app_name}.log', encoding='utf-8', level=logging.INFO)
+    logging.info(text)
+    self.__text2speech(text)
+
+  def __text2speech(self, text, lang='en'):
     """
     Convert any text to speech
     :param text: str
