@@ -1,5 +1,4 @@
-# Us. We. or Them. A glory of plural. A smell of ignorance. A precious of primes.
-# Oracle - Matrix & 3301 inspired everyday assistant
+# Oracle - "Matrix & 3301 inspired assistant"
 
 You need to install **Python version 3.9**
 
@@ -69,8 +68,6 @@ python3 mainframe.py --private
 
 - sys.exit(), e.g.: *'stop|finish|shutdown'*
 - time.sleep(), e.g.: *'sleep'*
-
-### Future improvements:
 
 ## to implement
 
