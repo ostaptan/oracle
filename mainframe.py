@@ -11,26 +11,16 @@ from src.commander import Commander
 class Mainframe:
   def __init__(self):
     self.listener = Listener()
-    self.speaker = Speaker()
-
-  def __speak(self, text, app_name='mainframe'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
-    self.speaker.text2speech(text)
-
-  def __write(self, text, app_name='mainframe'):
-    logging.basicConfig(filename=f'logs/{app_name}.log', encoding='utf-8', level=logging.INFO)
-    logging.info(text)
+    self.speaker = Speaker('mainframe')
 
   def main(self, args):
-    self.__write('-------------------------------------------------------------')
-    self.__speak("γνῶθι σεαυτόν")
+    self.speaker.write('-------------------------------------------------------------')
+    self.speaker.tell("γνῶθι σεαυτόν")
     commander = Commander()
 
     while True:
       if args.private:
-        print('>>> Type...')
-        speech = input()
+        speech = input('O>>> ')
       else:
         speech = self.listener.mic_input()
 

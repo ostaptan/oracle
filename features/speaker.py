@@ -8,7 +8,7 @@ from gtts import gTTS
 from playsound import playsound
 
 class Speaker:
-  def __init__(self, app_name)
+  def __init__(self, app_name):
     self.app_name = app_name
 
   def write(self, text):
