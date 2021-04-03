@@ -34,7 +34,7 @@ python3 mainframe.py
 Run private mode (voiceless input):
 
 ```sh
-python3 mainframe.py --private
+python3 mainframe.py --private True
 ```
 
 ## Features

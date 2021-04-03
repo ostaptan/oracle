@@ -18,21 +18,21 @@ class Mainframe:
     self.speaker.write('-------------------------------------------------------------')
     self.speaker.tell("γνῶθι σεαυτόν")
     commander = Commander()
+    t = Timer()
+    t.start()
 
-    # t = Timer()
-    # t.start()
     while True:
       if args.private:
         speech = input('O>>> ')
       else:
         speech = self.listener.mic_input()
 
-      commander.do(speech)
+      time_el = t.check()
+      if time_el > 120.0:
+        t.stop()
+        commander.do('sleep')
 
-      # time_el = t.check()
-      # print(time_el)
-      # if time_el > 13.0:
-      #   commander.do('sleep')
+      commander.do(speech)
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
