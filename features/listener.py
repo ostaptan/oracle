@@ -1,11 +1,11 @@
-import speech_recognition as sr
-import pyaudio
-import random
 import os
-import time
 import sys
-sys.path.append("./src")
-from mic_recognizer import SpeechRecognition
+import time
+import random
+import pyaudio
+import speech_recognition as sr
+
+from src.mic_recognizer import SpeechRecognition
 
 class Listener:
   def __init__(self):

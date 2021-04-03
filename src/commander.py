@@ -64,18 +64,9 @@ class Commander:
 
     # ---
     # writer section
-    # must have shared memory to operate in one file
-    # still not working without net
     #
-    # not need to name files ))
-
-    # if re.search('open|create file', speech):
-    #   fname = speech.split('file')[-1].strip()
-    #   Writer().file_open(fname)
-
     if re.search('fix', speech):
       Writer().mustdo(speech)
-
 
     recent_rec = Writer().recent_file()
     if recent_rec and recent_rec.opened:
@@ -98,21 +89,11 @@ class Commander:
     if re.search('lock', speech):
       Conductor().lock('MUSTDO')
 
-    # ---
-    # utils section
-    #
     if re.search('stop|finish|shutdown', speech):
-      self.speaker.tell('Exiting. Good bye.')
-      sys.exit()
+      Conductor().exit()
 
     if re.search('sleep', speech):
-      tn = time.strftime("%H:%M:%S", time.localtime())
-      self.speaker.tell(f'Starting sleeping phase for an hour at {tn}')
-      # ---
-      # sleep zone
-      time.sleep(float(60*60)) # 60 secs in 60 mins
-      #
-      tn = time.strftime("%H:%M:%S", time.localtime())
-      self.speaker.tell(f'Awake at {tn}!')
+      Conductor().sleep()
       Radio().greeting()
+
 

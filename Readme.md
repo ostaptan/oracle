@@ -63,11 +63,8 @@ python3 mainframe.py --private
 - launch('sublime'), e.g.: *'open|launch|start application'*
 - lock(), e.g.: *'lock data'*
 - unlock(), e.g.: *'unlock data'*
-
-#### Utils
-
-- sys.exit(), e.g.: *'stop|finish|shutdown'*
-- time.sleep(), e.g.: *'sleep'*
+- exit(), e.g.: *'stop|finish|shutdown'*
+- sleep(), e.g.: *'sleep'*
 
 ## to implement
 

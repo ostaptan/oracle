@@ -3,8 +3,10 @@ import sys
 import requests
 import cryptography
 import justext
+import time
 import logging
 import subprocess
+
 from features.speaker import Speaker
 from cryptography.fernet import Fernet
 
@@ -31,6 +33,17 @@ class Conductor:
         key = Fernet.generate_key()
         filekey.write(key)
         return key
+
+  def exit(self):
+    self.speaker.tell('Exiting. Good bye.')
+    sys.exit()
+
+  def sleep(self):
+    tn = time.strftime("%H:%M:%S", time.localtime())
+    self.speaker.tell(f'Starting sleeping phase for an hour at {tn}')
+    time.sleep(float(60*60)) # 60 secs in 60 mins
+    tn = time.strftime("%H:%M:%S", time.localtime())
+    self.speaker.tell(f'Awake at {tn}!')
 
   def launch(self, app_name):
     self.speaker.tell(f'Opening {app_name}')
