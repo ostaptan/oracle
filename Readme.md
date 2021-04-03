@@ -1,4 +1,5 @@
-# Oracle - "Matrix & 3301 inspired assistant"
+# Us. We. or Them. A glory of plural. A smell of ignorance. A precious of primes.
+# Oracle - Matrix & 3301 inspired everyday assistant
 
 You need to install **Python version 3.9**
 
@@ -18,6 +19,10 @@ Install required dependencies with:
 ```sh
 pip install -r requirements.txt
 ```
+
+## Check ./data folder
+
+You need to get several datasets in ./data/ directory from my master
 
 ## Mainframe Usage
 
@@ -46,7 +51,7 @@ python3 mainframe.py --private
 
 #### Searcher
 
-- topic_news('SCIENCE'), e.g.: *'tell news about science'*
+- topic_news('SCIENCE'), e.g.: *'tell news about science'* [WORLD NATION BUSINESS TECHNOLOGY ENTERTAINMENT SPORTS SCIENCE HEALTH]
 - local_news(), e.g.: *'tell news'*
 - wiki('Ukraine'), e.g.: *'wiki|find about'*
 
@@ -65,17 +70,20 @@ python3 mainframe.py --private
 - sys.exit(), e.g.: *'stop|finish|shutdown'*
 - time.sleep(), e.g.: *'sleep'*
 
-### Future imporvements from dev point of view
+### Future improvements:
 
-- Neuro transformator from text 2 command by dict.
-- Screen recording and manipulation with [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/) (Screener feature)
+## to implement
+
+- Docker image or instal.sh for easy use.
+- Neuro-transformator from text 2 command by dict.
+- !!!Screen recording and manipulation with [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/) (Screener feature)
 - Read movements and signals from built-in camera
-- Register life events (Logger feature)
+- !Calendar integration.
 - Features builder GUI
 - Microservices arch with kafka segmentation
 - Localize configs and dockerize 4 user per user
 
-### Wouldlikes from philosophical point of view
+##  to research
 
 - Interrupt any current command
 - Collect voice emotion

@@ -111,6 +111,11 @@ class Commander:
       sys.exit()
 
     if re.search('sleep', speech):
-      self.__speak('Going to sleep for an hour.')
+      tn = time.strftime("%H:%M:%S", time.localtime())
+      self.__speak(f'Starting sleeping phase for an hour at {tn}')
+      # ---
+      # sleep zone
       time.sleep(float(60*60)) # 60 secs in 60 mins
-      self.__speak('Awake!')
+      #
+      tn = time.strftime("%H:%M:%S", time.localtime())
+      self.__speak('Awake at {tn}!')
