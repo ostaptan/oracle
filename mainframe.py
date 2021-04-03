@@ -1,4 +1,5 @@
 import sys
+import select
 import os
 import logging
 import argparse
@@ -18,19 +19,19 @@ class Mainframe:
     self.speaker.write('-------------------------------------------------------------')
     self.speaker.tell("γνῶθι σεαυτόν")
     commander = Commander()
-    t = Timer()
-    t.start()
 
     while True:
       if args.private:
-        speech = input('O>>> ')
+        print('O>>> ')
+        i, o, e = select.select([sys.stdin], [], [], 33)
+
+        if (i):
+          speech = sys.stdin.readline().strip()
+        else:
+          # 60 sec timeout going to sleep
+          commander.do('sleep')
       else:
         speech = self.listener.mic_input()
-
-      time_el = t.check()
-      if time_el > 120.0:
-        t.stop()
-        commander.do('sleep')
 
       commander.do(speech)
 

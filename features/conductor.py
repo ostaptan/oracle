@@ -39,10 +39,10 @@ class Conductor:
     sys.exit()
 
   def sleep(self):
-    tn = time.strftime("%H:%M:%S", time.localtime())
-    self.speaker.tell(f'Starting sleeping phase for an hour at {tn}')
+    tn = time.strftime("%H:%M", time.localtime())
+    self.speaker.tell(f'Sleeping at {tn}')
     time.sleep(float(60*60)) # 60 secs in 60 mins
-    tn = time.strftime("%H:%M:%S", time.localtime())
+    tn = time.strftime("%H:%M", time.localtime())
     self.speaker.tell(f'Awake at {tn}!')
 
   def launch(self, app_name):
