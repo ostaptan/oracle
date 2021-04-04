@@ -28,12 +28,14 @@ class Mainframe:
         if (i):
           speech = sys.stdin.readline().strip()
         else:
-          # 60 sec timeout going to sleep
           commander.do('sleep')
       else:
         speech = self.listener.mic_input()
 
-      commander.do(speech)
+      if speech:
+        commander.do(speech)
+      else:
+        commander.do('sleep')
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
