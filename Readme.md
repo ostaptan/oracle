@@ -1,8 +1,8 @@
 # Oracle - "Matrix & 3301 inspired assistant"
 
-[Installation](https://github.com/ostaptan/oracle/wiki/Installation)
+## [Installation steps wiki](https://github.com/ostaptan/oracle/wiki/Installation)
 
-## Check ./data folder
+## Check data folder
 
 You need to get several datasets in ./data/ directory from my master
 
@@ -20,6 +20,6 @@ Run private mode (voiceless input):
 python3 mainframe.py --private True
 ```
 
-[Features](https://github.com/ostaptan/oracle/wiki/Features)
+## [Features wiki](https://github.com/ostaptan/oracle/wiki/Features)
 
-[TODO](https://github.com/ostaptan/oracle/wiki/TODO)
+## [TODO list](https://github.com/ostaptan/oracle/wiki/TODO)
