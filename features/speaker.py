@@ -5,7 +5,7 @@ import logging
 import sys
 
 from gtts import gTTS
-from playsound import playsound
+import subprocess
 
 class Speaker:
   def __init__(self, app_name):
@@ -41,8 +41,7 @@ class Speaker:
       print(text)
       filename_ascii = '-'.join(str(ord(c)) for c in filename_str) + '_' + time.strftime("%d%m%Y%H%M%S")
       myobj.save(f'sounds/{filename_ascii}.mp3')
-      playsound(f'sounds/{filename_ascii}.mp3')
-      # os.remove("tmp.mp3")
+      os.system('afplay ' + f'sounds/{filename_ascii}.mp3')
       return True
     except Exception as e:
       mytext = "Sorry I couldn't understand."
