@@ -7,3 +7,6 @@
 /sounds/*.mp3
 /oracle-env/*
 tmp.mp3
+/venv/*
+features/__pycache__/*
+src/__pycache__/*
