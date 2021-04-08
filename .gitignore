@@ -4,6 +4,6 @@
 /db/*.key
 /sandbox/*.txt
 /core/*
-/sounds/*
+/sounds/*.mp3
 /oracle-env/*
 tmp.mp3
