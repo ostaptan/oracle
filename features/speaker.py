@@ -39,9 +39,9 @@ class Speaker:
       myobj = gTTS(text=text, lang=lang, slow=False)
       filename_str = '-'.join(text.split(' ')[:3])
       print(text)
-      filename_ascii = '.'.join(str(ord(c)) for c in filename_str) + '_' + time.strftime("%d%m%Y%H%M%S")
-      myobj.save(f'sounds/{filename_ascii}')
-      playsound(f'sounds/{filename_ascii}')
+      filename_ascii = '-'.join(str(ord(c)) for c in filename_str) + '_' + time.strftime("%d%m%Y%H%M%S")
+      myobj.save(f'sounds/{filename_ascii}.mp3')
+      playsound(f'sounds/{filename_ascii}.mp3')
       # os.remove("tmp.mp3")
       return True
     except Exception as e:

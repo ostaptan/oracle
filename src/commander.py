@@ -94,6 +94,5 @@ class Commander:
 
     if re.search('sleep', speech):
       Conductor().sleep()
-      Radio().greeting()
 
 

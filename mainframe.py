@@ -34,8 +34,6 @@ class Mainframe:
 
       if speech:
         commander.do(speech)
-      else:
-        commander.do('sleep')
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()

@@ -41,9 +41,8 @@ class Conductor:
   def sleep(self):
     tn = time.strftime("%H:%M", time.localtime())
     self.speaker.tell(f'Sleeping at {tn}')
-    time.sleep(float(60*60)) # 60 secs in 60 mins
-    tn = time.strftime("%H:%M", time.localtime())
-    self.speaker.tell(f'Awake at {tn}!')
+    time.sleep(float(60*60*3)) # 60 secs in 60 mins 3 times
+    self.speaker.tell('Awaken!')
 
   def launch(self, app_name):
     self.speaker.tell(f'Opening {app_name}')
