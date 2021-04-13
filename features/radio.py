@@ -11,14 +11,13 @@ import pyjokes
 import peewee
 import datetime
 from datetime import date
-from features.speaker import Speaker
 from db.models import Weathers
 
 import src.weather_puller as wp
 
 class Radio:
-  def __init__(self):
-    self.speaker = Speaker('mainframe')
+  def __init__(self, speaker):
+    self.speaker = speaker
 
   def __notify(self, title, text):
     os.system("""
@@ -27,8 +26,8 @@ class Radio:
 
   def greeting(self):
     sys_name = os.getcwd().split('/')[2]
-    text = f'Welcome, {sys_name}!'
-    self.__notify('Oracle', 'γνῶθι σεαυτόν! '+text)
+    text = f'Welcome, master {sys_name}!'
+    self.__notify('γνῶθι σεαυτόν!', text)
     self.speaker.tell(text)
 
   def aphorism(self):
@@ -64,7 +63,7 @@ class Radio:
     if today_w:
       self.speaker.write(f'Last recorded temp: {today_w.temperature} and wind: {today_w.wind}')
       if today_w.temperature == float(w_data[0]) and today_w.wind == float(w_data[1]):
-        self.speaker.write('Weather havent changed.')
+        self.speaker.tell("Weather haven't changed.")
         return
       else:
         Weathers.create(temperature=float(w_data[0]), wind=float(w_data[1]), created_at=date.today())

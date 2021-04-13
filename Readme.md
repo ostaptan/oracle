@@ -8,16 +8,16 @@ You need to get several datasets in ./data/ directory from my master
 
 ## Mainframe Usage
 
-Run:
+Run private mode (shell input):
 
 ```sh
 python3 mainframe.py
 ```
 
-Run private mode (voiceless input):
+Run public mode (voice input):
 
 ```sh
-python3 mainframe.py --private True
+python3 mainframe.py --private False
 ```
 
 ## [Features wiki](https://github.com/ostaptan/oracle/wiki/Features)

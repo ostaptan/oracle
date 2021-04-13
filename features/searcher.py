@@ -8,12 +8,11 @@ import peewee
 from datetime import date
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen
-from features.speaker import Speaker
 from db.models import Definitions
 
 class Searcher:
-  def __init__(self):
-    self.speaker = Speaker('searcher')
+  def __init__(self, speaker):
+    self.speaker = speaker
 
   def local_news(self):
     try:

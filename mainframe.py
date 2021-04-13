@@ -11,34 +11,34 @@ from src.commander import Commander
 from src.timer import Timer
 
 class Mainframe:
-  def __init__(self):
-    self.listener = Listener()
-    self.speaker = Speaker('mainframe')
+  def __init__(self, speaker):
+    self.speaker = speaker
 
   def main(self, args):
-    self.speaker.write('-------------------------------------------------------------')
+    # heavy initialization time
+    # will be replaced by net
+    self.speaker.tell('Initializing Core...')
+    commander = Commander(self.speaker)
     self.speaker.tell("γνῶθι σεαυτόν")
-    commander = Commander()
 
     while True:
       if args.private:
-        print('O>>> ')
-        i, o, e = select.select([sys.stdin], [], [], 33)
-
-        if (i):
-          speech = sys.stdin.readline().strip()
-        else:
-          commander.do('sleep')
+        print('AI/ORACLE>>> ', end='')
+        speech = input()
       else:
-        speech = self.listener.mic_input()
+        listener = Listener()
+        speech = listener.mic_input()
 
       if speech:
         commander.do(speech)
 
 if __name__ == "__main__":
+  speaker = Speaker('mainframe')
+  speaker.write('-------------------------------------------------------------')
   parser = argparse.ArgumentParser()
   mainframe_opts(parser)
   args = parser.parse_args()
-  mf = Mainframe()
+  mf = Mainframe(speaker)
+  speaker.tell('Mainframe initialized.')
   mf.main(args)
 

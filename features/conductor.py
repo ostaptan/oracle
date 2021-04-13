@@ -7,7 +7,6 @@ import time
 import logging
 import subprocess
 
-from features.speaker import Speaker
 from cryptography.fernet import Fernet
 
 class Conductor:
@@ -19,8 +18,8 @@ class Conductor:
     'telegram': '/Applications/Telegram.app',
   }
 
-  def __init__(self):
-    self.speaker = Speaker('conductor')
+  def __init__(self, speaker):
+    self.speaker = speaker
 
   def __get_key(self):
     key_path = 'db/fernet.key'

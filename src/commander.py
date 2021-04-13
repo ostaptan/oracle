@@ -1,3 +1,6 @@
+#
+# will be replaced by neural net
+#
 import sys
 import os
 import re
@@ -5,94 +8,98 @@ import time
 import logging
 
 from features.listener import Listener
-from features.speaker import Speaker
 from features.radio import Radio
 from features.searcher import Searcher
 from features.writer import Writer
 from features.conductor import Conductor
 
 class Commander:
-  def __init__(self):
+  def __init__(self, speaker):
     self.listener = Listener()
-    self.speaker = Speaker('mainframe')
+    self.speaker = speaker
+    self.radio = Radio(speaker)
+    self.conductor = Conductor(speaker)
+    self.writer = Writer(speaker)
+    self.searcher = Searcher(speaker)
 
   def do(self, speech):
-    #
-    # will be replaced by neural net
-    #
-    if re.search('oracle|hello|hey|', speech):
-      self.speaker.tell('Yes.')
+    if re.search('greeting|hey|hello', speech):
+      self.radio.greeting()
 
     # ---
     # radio section
     #
     if re.search('radio', speech):
-      Radio().scenario()
+      self.radio.scenario()
 
     if re.search('joke', speech):
-      Radio().joke()
+      self.radio.joke()
 
-    if re.search('what|tell time', speech):
-      Radio().datetime_now()
+    if re.search('time', speech):
+      self.radio.datetime_now()
 
     if re.search('aphorism|quote', speech):
-      Radio().aphorism()
+      self.radio.aphorism()
 
     if re.search('poem', speech):
-      Radio().poem()
+      self.radio.poem()
 
     if re.search('weather', speech):
-      Radio().weather()
+      self.radio.weather()
 
     if re.search('dialectica', speech):
-      Radio().read_dial()
+      self.radio.read_dial()
 
     # ---
     # searcher section
     #
     if re.search('wiki|find about', speech):
       topic = speech.split('about')[-1].strip()
-      Searcher().wiki(topic)
+      self.searcher.wiki(topic)
 
-    if re.search('tell news', speech):
-      Searcher().local_news()
+    if re.search('local news', speech):
+      self.searcher.local_news()
 
     # WORLD NATION BUSINESS TECHNOLOGY ENTERTAINMENT SPORTS SCIENCE HEALTH
-    if re.search('tell news about', speech):
+    if re.search('news about', speech):
       topic = speech.split('about')[-1].strip()
-      Searcher().topic_news(topic.upper())
+      self.searcher.topic_news(topic.upper())
 
     # ---
     # writer section
     #
-    if re.search('fix', speech):
-      Writer().mustdo(speech)
+    if re.search('fix todo', speech):
+      todo = ''.join(speech.split('todo')[1:]).strip()
+      self.writer.mustdo(todo)
 
-    recent_rec = Writer().recent_file()
+    if re.search('show fixed|todos', speech):
+      self.writer.show_mustdo()
+
+    recent_rec = self.writer.recent_file()
     if recent_rec and recent_rec.opened:
       f = open(recent_rec.path, 'a+')
       f.write(f, speech + "\n")
 
       if re.search('end', speech):
-        Writer().wclose(f)
+        self.writer.wclose(f)
 
     # ---
     # conductor section
     #
     if re.search('open|launch|start application', speech):
       app_name = speech.split('application')[-1].strip()
-      Conductor().launch(app_name)
+      self.conductor.launch(app_name)
 
     if re.search('unlock', speech):
-      Conductor().unlock('MUSTDO')
+      self.conductor.unlock('MUSTDO')
 
     if re.search('lock', speech):
-      Conductor().lock('MUSTDO')
+      self.conductor.lock('MUSTDO')
 
-    if re.search('stop|finish|shutdown', speech):
-      Conductor().exit()
+    if re.search('stop|finish|shutdown|exit', speech):
+      self.conductor.exit()
 
     if re.search('sleep', speech):
-      Conductor().sleep()
+      self.conductor.sleep()
 
 

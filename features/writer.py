@@ -5,12 +5,12 @@ import peewee
 from datetime import date
 from db.models import ActiveFiles
 
-from features.speaker import Speaker
 from features.conductor import Conductor
 
 class Writer:
-  def __init__(self):
-    self.speaker = Speaker('writer')
+  def __init__(self, speaker):
+    self.speaker = speaker
+    self.conductor = Conductor(speaker)
 
   def recent_file(self):
     try:
@@ -22,13 +22,22 @@ class Writer:
     except peewee.DoesNotExist:
       return None
 
+  def show_mustdo(self):
+    fname = 'MUSTDO'
+    self.conductor.unlock(fname)
+    fpath = f'./sandbox/{fname}.txt'
+    with open(fpath, 'r') as file:
+      print(file.read())
+    self.conductor.lock(fname)
+
   def mustdo(self, speech):
     file = self.wopen('MUSTDO')
     file.write(speech + "\n")
+    self.speaker.tell('Text fixed in files.')
     self.wclose(file)
 
   def wopen(self, fname):
-    Conductor().unlock('MUSTDO')
+    self.conductor.unlock(fname)
     fpath = f'./sandbox/{fname}.txt'
     f = open(fpath, 'a+')
     ActiveFiles.create(
@@ -39,9 +48,8 @@ class Writer:
     return f
 
   def wclose(self, f):
-    self.speaker.tell('Text fixed in files.')
     f.close()
-    Conductor().lock('MUSTDO')
+    self.conductor.lock('MUSTDO')
     recent_rec = self.recent_file()
     if recent_rec:
       recent_rec.opened = False
