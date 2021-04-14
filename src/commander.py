@@ -35,12 +35,12 @@ class Commander:
     if re.search('joke', speech):
       self.radio.joke()
 
-    if re.search('sen', speech):
-      phrase = ''.join(speech.split('sen')[1:]).strip()
+    if re.search('spen', speech):
+      phrase = ''.join(speech.split('spen')[1:]).strip()
       self.speaker.tell(phrase)
 
-    if re.search('sua', speech):
-      phrase = ''.join(speech.split('sua')[1:]).strip()
+    if re.search('spua', speech):
+      phrase = ''.join(speech.split('spua')[1:]).strip()
       self.speaker.tell_ua(phrase)
 
     if re.search('time', speech):
