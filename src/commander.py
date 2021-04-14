@@ -23,7 +23,7 @@ class Commander:
     self.searcher = Searcher(speaker)
 
   def do(self, speech):
-    if re.search('greeting|hey|hello', speech):
+    if re.search('greeting', speech):
       self.radio.greeting()
 
     # ---
@@ -34,6 +34,14 @@ class Commander:
 
     if re.search('joke', speech):
       self.radio.joke()
+
+    if re.search('sen', speech):
+      phrase = ''.join(speech.split('sen')[1:]).strip()
+      self.speaker.tell(phrase)
+
+    if re.search('sua', speech):
+      phrase = ''.join(speech.split('sua')[1:]).strip()
+      self.speaker.tell_ua(phrase)
 
     if re.search('time', speech):
       self.radio.datetime_now()

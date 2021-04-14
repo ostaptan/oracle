@@ -107,8 +107,8 @@ class Radio:
     self.aphorism()
     self.speaker.tell('A joke:')
     self.joke()
-    self.speaker.tell('A poem:')
-    self.poem()
+    # self.speaker.tell('A poem:')
+    # self.poem()
     self.speaker.tell_ua('Елемент діалектики:')
     self.read_dial()
 

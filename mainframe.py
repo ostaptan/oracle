@@ -17,7 +17,7 @@ class Mainframe:
   def main(self, args):
     # heavy initialization time
     # will be replaced by net
-    self.speaker.tell('Initializing Core...')
+    self.speaker.write('Initializing Core...')
     commander = Commander(self.speaker)
     self.speaker.tell("γνῶθι σεαυτόν")
 
@@ -39,6 +39,6 @@ if __name__ == "__main__":
   mainframe_opts(parser)
   args = parser.parse_args()
   mf = Mainframe(speaker)
-  speaker.tell('Mainframe initialized.')
+  speaker.write('Mainframe initialized.')
   mf.main(args)
 

@@ -12,6 +12,7 @@ class Speaker:
     self.app_name = app_name
 
   def write(self, text):
+    print(text)
     logging.basicConfig(filename=f'logs/{self.app_name}.log', encoding='utf-8', level=logging.INFO)
     logging.info(text)
 
@@ -39,7 +40,7 @@ class Speaker:
       myobj = gTTS(text=text, lang=lang, slow=False)
       filename_str = '-'.join(text.split(' ')[:3])
       print(text)
-      filename_ascii = '-'.join(str(ord(c)) for c in filename_str) + '_' + time.strftime("%d%m%Y%H%M%S")
+      filename_ascii = time.strftime("%H%M%S%d%m%Y") + '_' + '-'.join(str(ord(c)) for c in filename_str)
       myobj.save(f'sounds/{filename_ascii}.mp3')
       os.system('afplay ' + f'sounds/{filename_ascii}.mp3')
       return True
@@ -48,10 +49,4 @@ class Speaker:
       os.system("""
               osascript -e 'display notification "{}" with title "{}"' with timeout of 86400 seconds end timeout
               """.format("Sorry I couldn't understand.", 'Oracle'))
-      print(mytext)
-      myobj = gTTS(text=mytext, lang=lang, slow=False)
-      myobj.save("tmp.mp3")
-      playsound("tmp.mp3")
-      os.remove("tmp.mp3")
-      print(e)
       return False
