@@ -47,6 +47,7 @@ class Searcher:
       ex_def = Definitions.get(topic == topic)
     except peewee.DoesNotExist:
       ex_def = None
+
     if ex_def:
       self.speaker.tell(f'Already told you about {topic}')
       self.speaker.tell(ex_def.text)

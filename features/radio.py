@@ -57,7 +57,8 @@ class Radio:
     except peewee.DoesNotExist:
       today_w = None
 
-    weather_speech = wp.main(city='Lviv')
+
+    weather_speech = wp.main()
     w_data = re.findall(r"[-+]?\d*\.\d+|\d+", weather_speech)
 
     if today_w:

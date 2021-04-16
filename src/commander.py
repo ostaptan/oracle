@@ -61,8 +61,8 @@ class Commander:
     # ---
     # searcher section
     #
-    if re.search('wiki|find about', speech):
-      topic = speech.split('about')[-1].strip()
+    if re.search('wiki', speech):
+      topic = ' '.join(speech.split('wiki')[1:]).strip()
       self.searcher.wiki(topic)
 
     if re.search('local news', speech):
