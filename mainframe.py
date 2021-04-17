@@ -13,7 +13,6 @@ from websocket import create_connection
 class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker
-    self.ws = create_connection("ws://127.0.0.1:8000/")
 
   def __notify(self, title, text):
     os.system("""
@@ -28,6 +27,7 @@ class Mainframe:
 
   def main(self, args):
     self.speaker.write('Connecting Core...')
+    self.ws = create_connection("ws://127.0.0.1:8000/")
 
     self.greeting()
     while True:
@@ -41,6 +41,7 @@ class Mainframe:
       if speech:
         # connect to command service
         self.ws.send(speech)
+        print('speech sent')
         result =  self.ws.recv()
         print("Received '%s'" % result)
         # self.ws.close()
