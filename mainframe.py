@@ -15,12 +15,18 @@ class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker
     self.bs_cmd = BasicCommander(speaker)
-    # self.ws = websocket.create_connection("ws://192.168.0.102:8000/")
     self.sys_name = os.getcwd().split('/')[2]
-    self.ws = websocket.create_connection("ws://127.0.0.1:8000/")
+
+    self.speaker.tell('Connecting Core...')
+    try:
+      self.ws = websocket.create_connection("ws://3.66.79.167:8000/")
+      # self.ws = websocket.create_connection("ws://192.168.0.102:8000/")
+      # self.ws = websocket.create_connection("ws://127.0.0.1:8000/")
+    except ConnectionRefusedError:
+      self.speaker.tell('Cannot connect to core. Only basic support.')
+
 
   def main(self, args):
-    self.speaker.write('Connecting Core...')
     self.speaker.tell('γνῶθι σεαυτόν!')
 
     while True:
@@ -50,6 +56,8 @@ class Mainframe:
             self.speaker.tell('Core error')
           except TypeError:
             self.speaker.tell('Unknown error')
+          except AttributeError:
+            self.speaker.tell('Cannot connect to core.')
 
 
 

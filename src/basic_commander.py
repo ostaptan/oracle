@@ -4,7 +4,8 @@ import re
 
 from features.writer import Writer
 from features.conductor import Conductor
-import src.weather_puller as wp
+
+import src.utils as utils
 
 class BasicCommander:
   def __init__(self, speaker):
@@ -18,7 +19,6 @@ class BasicCommander:
               """.format(text, title))
 
   def greeting(self):
-
     text = f'Welcome, master {sys_name}!'
     self.__notify('γνῶθι σεαυτόν!', text)
     self.speaker.tell(text)
@@ -38,12 +38,17 @@ class BasicCommander:
       return True
 
     if re.search('weather', speech):
-      self.speaker.tell(wp.main())
+      self.speaker.tell(utils.pull_weather())
+      return True
+
+    if re.search('time', speech):
+      self.speaker.tell(utils.datetime_now())
       return True
 
     # ---
     # writer section
     #
+
     if re.search('fix todo', speech):
       todo = ''.join(speech.split('todo')[1:]).strip()
       self.writer.mustdo(todo)
