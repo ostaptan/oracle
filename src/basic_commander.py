@@ -18,7 +18,7 @@ class BasicCommander:
               """.format(text, title))
 
   def greeting(self):
-    sys_name = os.getcwd().split('/')[2]
+
     text = f'Welcome, master {sys_name}!'
     self.__notify('γνῶθι σεαυτόν!', text)
     self.speaker.tell(text)

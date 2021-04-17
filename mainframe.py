@@ -16,6 +16,7 @@ class Mainframe:
     self.speaker = speaker
     self.bs_cmd = BasicCommander(speaker)
     # self.ws = websocket.create_connection("ws://192.168.0.102:8000/")
+    self.sys_name = os.getcwd().split('/')[2]
     self.ws = websocket.create_connection("ws://127.0.0.1:8000/")
 
   def main(self, args):
@@ -36,7 +37,11 @@ class Mainframe:
         else:
           # send ws command to core
           try:
-            self.ws.send(speech)
+            request = {
+              'sysname': self.sys_name,
+              'speech': speech
+            }
+            self.ws.send(json.dumps(request))
             result = self.ws.recv()
             resj = json.loads(result)
             evaluat = eval(f'self.{resj["feature"]}.{resj["action"]}')
