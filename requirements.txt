@@ -12,7 +12,6 @@ filelock==3.0.12
 gTTS==2.2.2
 idna==2.10
 joblib==1.0.1
-jusText==2.2.0
 lazyme==0.0.23
 librosa==0.8.0
 llvmlite==0.36.0
@@ -174,6 +173,4 @@ torch==1.8.1
 tqdm==4.59.0
 transformers==4.4.2
 typing-extensions==3.7.4.3
-urllib3==1.26.4
-wikipedia==1.4.0
 websocket-client

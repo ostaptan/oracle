@@ -4,14 +4,20 @@ import re
 
 from features.writer import Writer
 from features.conductor import Conductor
+import src.weather_puller as wp
 
 class BasicCommander:
   # speaker
   def __init__(self, speaker):
+    self.speaker = speaker
     self.conductor = Conductor(speaker)
     self.writer = Writer(speaker)
 
   def do(self, speech):
+
+    if re.search('weather', speech):
+      self.speaker.tell(wp.main())
+
     # ---
     # writer section
     #
