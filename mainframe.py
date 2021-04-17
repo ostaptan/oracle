@@ -7,20 +7,29 @@ import argparse
 from options import mainframe_opts
 from features.listener import Listener
 from features.speaker import Speaker
-from src.commander import Commander
-from src.timer import Timer
+
+from websocket import create_connection
 
 class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker
+    self.ws = create_connection("ws://127.0.0.1:8000/")
+
+  def __notify(self, title, text):
+    os.system("""
+              osascript -e 'display notification "{}" with title "{}"' with timeout of 86400 seconds end timeout
+              """.format(text, title))
+
+  def greeting(self):
+    sys_name = os.getcwd().split('/')[2]
+    text = f'Welcome, master {sys_name}!'
+    self.__notify('γνῶθι σεαυτόν!', text)
+    self.speaker.tell(text)
 
   def main(self, args):
-    # heavy initialization time
-    # will be replaced by net
-    self.speaker.write('Initializing Core...')
-    commander = Commander(self.speaker)
-    self.speaker.tell("γνῶθι σεαυτόν")
+    self.speaker.write('Connecting Core...')
 
+    self.greeting()
     while True:
       if args.private:
         print('AI/ORACLE>>> ', end='')
@@ -30,7 +39,11 @@ class Mainframe:
         speech = listener.mic_input()
 
       if speech:
-        commander.do(speech)
+        # connect to command service
+        self.ws.send(speech)
+        result =  self.ws.recv()
+        print("Received '%s'" % result)
+        # self.ws.close()
 
 if __name__ == "__main__":
   speaker = Speaker('mainframe')

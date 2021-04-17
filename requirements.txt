@@ -176,3 +176,4 @@ transformers==4.4.2
 typing-extensions==3.7.4.3
 urllib3==1.26.4
 wikipedia==1.4.0
+websocket-client
