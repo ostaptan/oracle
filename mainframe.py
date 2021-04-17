@@ -11,7 +11,6 @@ from features.listener import Listener
 from features.speaker import Speaker
 from src.basic_commander import BasicCommander
 
-
 class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker

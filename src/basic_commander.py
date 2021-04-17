@@ -7,7 +7,6 @@ from features.conductor import Conductor
 import src.weather_puller as wp
 
 class BasicCommander:
-  # speaker
   def __init__(self, speaker):
     self.speaker = speaker
     self.conductor = Conductor(speaker)
@@ -25,6 +24,14 @@ class BasicCommander:
     self.speaker.tell(text)
 
   def do(self, speech):
+
+    if re.search('spen', speech):
+      self.speaker.tell(''.join(speech.split('spen')[1:]).strip())
+      return True
+
+    if re.search('spua', speech):
+      self.speaker.tell_ua(''.join(speech.split('spua')[1:]).strip())
+      return True
 
     if re.search('greeting', speech):
       self.greeting()
