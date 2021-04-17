@@ -13,10 +13,26 @@ class BasicCommander:
     self.conductor = Conductor(speaker)
     self.writer = Writer(speaker)
 
+  def __notify(self, title, text):
+    os.system("""
+              osascript -e 'display notification "{}" with title "{}"' with timeout of 86400 seconds end timeout
+              """.format(text, title))
+
+  def greeting(self):
+    sys_name = os.getcwd().split('/')[2]
+    text = f'Welcome, master {sys_name}!'
+    self.__notify('γνῶθι σεαυτόν!', text)
+    self.speaker.tell(text)
+
   def do(self, speech):
+
+    if re.search('greeting', speech):
+      self.greeting()
+      return True
 
     if re.search('weather', speech):
       self.speaker.tell(wp.main())
+      return True
 
     # ---
     # writer section

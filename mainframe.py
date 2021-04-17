@@ -16,24 +16,12 @@ class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker
     self.bs_cmd = BasicCommander(speaker)
-    self.ws = websocket.create_connection("ws://192.168.0.102:8000/")
-    # self.ws = websocket.create_connection("ws://127.0.0.1:8000/")
-
-  def __notify(self, title, text):
-    os.system("""
-              osascript -e 'display notification "{}" with title "{}"' with timeout of 86400 seconds end timeout
-              """.format(text, title))
-
-  def greeting(self):
-    sys_name = os.getcwd().split('/')[2]
-    text = f'Welcome, master {sys_name}!'
-    self.__notify('γνῶθι σεαυτόν!', text)
-    self.speaker.tell(text)
+    # self.ws = websocket.create_connection("ws://192.168.0.102:8000/")
+    self.ws = websocket.create_connection("ws://127.0.0.1:8000/")
 
   def main(self, args):
     self.speaker.write('Connecting Core...')
-
-    self.greeting()
+    self.speaker.tell('γνῶθι σεαυτόν!')
 
     while True:
       if args.private:
@@ -56,6 +44,9 @@ class Mainframe:
             evaluat(resj["data"])
           except websocket._exceptions.WebSocketConnectionClosedException:
             self.speaker.tell('Core error')
+          except TypeError:
+            self.speaker.tell('Unknown error')
+
 
 
 if __name__ == "__main__":
