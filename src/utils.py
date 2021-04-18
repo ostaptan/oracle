@@ -57,7 +57,6 @@ def get_city():
   url = 'http://ipinfo.io/json'
   response = urllib.request.urlopen(url)
   data = json.load(response)
-  print(f'Current location: {data}')
   return data['city']
 
 
