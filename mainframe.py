@@ -1,6 +1,5 @@
 import sys
 import select
-import os
 import json
 import logging
 import argparse
@@ -10,6 +9,7 @@ from options import mainframe_opts
 from features.listener import Listener
 from features.speaker import Speaker
 from src.basic_commander import BasicCommander
+from src.utils import InfoProducer
 
 import src.utils as utils
 
@@ -17,9 +17,20 @@ class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker
     self.bs_cmd = BasicCommander(speaker)
-    self.sys_name = os.getcwd().split('/')[2]
+    ip = InfoProducer()
+    self.corequest = {
+      'client': {
+        'sysname': ip.sysn(),
+        'mac': ip.mac(),
+      },
+      'connection': {
+        'ip': ip.ip(),
+        'city': ip.city()
+      }
+    }
 
     self.speaker.write('Connecting Core...')
+
     try:
       # self.ws = websocket.create_connection("ws://3.66.79.167:8000/")
       # self.ws = websocket.create_connection("ws://192.168.0.102:8000/")
@@ -43,18 +54,15 @@ class Mainframe:
         if self.bs_cmd.do(speech):
           pass
         else:
-          # send ws command to core
+          # send ws request to core
+          self.corequest['speech'] = speech
           try:
-            request = {
-              'sysname': self.sys_name,
-              'city': utils.get_city(),
-              'speech': speech
-            }
-            self.ws.send(json.dumps(request))
+            self.ws.send(json.dumps(self.corequest))
             result = self.ws.recv()
-            resj = json.loads(result)
-            evaluat = eval(f'self.{resj["feature"]}.{resj["action"]}')
-            evaluat(resj["data"])
+            if result:
+              resj = json.loads(result)
+              evaluat = eval(f'self.{resj["feature"]}.{resj["action"]}')
+              evaluat(resj["data"])
           except websocket._exceptions.WebSocketConnectionClosedException:
             self.speaker.tell('Core error')
           except TypeError:

@@ -1,9 +1,12 @@
+import os
 import re
+import uuid
 import json
 import peewee
 import datetime
 import requests
 import urllib
+import socket
 
 from db.models import Weathers
 from src.weather_puller import WeatherPuller
@@ -46,17 +49,30 @@ def pull_weather():
     return weather_speech
 
 def fetch_data():
-  city = get_city()
+  city = InfoProducer().city()
   url = 'https://api.openweathermap.org/data/2.5/weather?appid=a10fd8a212e47edf8d946f26fb4cdef8'
   final_url = url + '&q=' + city + "&units=metric"
   json_data = requests.get(final_url).json()
   wp = WeatherPuller(json_data)
   return wp.format_speech(city)
 
-def get_city():
-  url = 'http://ipinfo.io/json'
-  response = urllib.request.urlopen(url)
-  data = json.load(response)
-  return data['city']
+def debugger():
+  import pdb; pdb.set_trace()
 
+class InfoProducer:
+  def __init__(self):
+    url = 'http://ipinfo.io/json'
+    response = urllib.request.urlopen(url)
+    self.data = json.load(response)
 
+  def city(self):
+    return self.data['city']
+
+  def ip(self):
+    return self.data['ip']
+
+  def sysn(self):
+    return os.getcwd().split('/')[2]
+
+  def mac(self):
+    return ':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) for ele in range(0,8*6,8)][::-1])
