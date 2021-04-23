@@ -1,6 +1,7 @@
 import time
 import requests
 import json
+
 from urllib.request import urlopen
 
 class WeatherPuller:
@@ -38,18 +39,4 @@ class WeatherPuller:
         self.__sunset()
       )
 
-def get_city():
-  url = 'http://ipinfo.io/json'
-  response = urlopen(url)
-  data = json.load(response)
-  print(f'Current location: {data}')
-  return data['city']
-
-def main():
-  city = get_city()
-  url = 'https://api.openweathermap.org/data/2.5/weather?appid=a10fd8a212e47edf8d946f26fb4cdef8'
-  final_url = url + '&q=' + city + "&units=metric"
-  json_data = requests.get(final_url).json()
-  wp = WeatherPuller(json_data)
-  return wp.format_speech(city)
 

@@ -16,10 +16,5 @@ class Weathers(BaseModel):
   wind = FloatField()
   created_at = DateField()
 
-class Definitions(BaseModel):
-  topic = CharField(unique=True)
-  text = TextField()
-  created_at = DateField()
-
 db.connect()
-db.create_tables([Weathers, Definitions, ActiveFiles])
+db.create_tables([Weathers, ActiveFiles])
