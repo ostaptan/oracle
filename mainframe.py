@@ -23,7 +23,7 @@ class Mainframe:
 
     while True:
       if args.private:
-        print('AI/ORACLE>>> ', end='')
+        print('/ORACLE>>> ', end='')
         speech = input()
       else:
         listener = Listener()
