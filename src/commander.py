@@ -27,7 +27,7 @@ class Commander:
       self.radio.greeting()
 
     # ---
-    # radio section
+    # static radio section
     #
     if re.search('radio', speech):
       self.radio.scenario()
@@ -59,25 +59,29 @@ class Commander:
       self.radio.read_dial()
 
     # ---
-    # searcher section
+    # research section
     #
-    if re.search('wiki|find about', speech):
-      topic = speech.split('about')[-1].strip()
+    if re.search('google:', speech):
+      question = speech.split(':')[-1].strip()
+      self.searcher.google(question)
+
+    if re.search('wiki:', speech):
+      topic = speech.split(':')[-1].strip()
       self.searcher.wiki(topic)
 
     if re.search('local news', speech):
       self.searcher.local_news()
 
     # WORLD NATION BUSINESS TECHNOLOGY ENTERTAINMENT SPORTS SCIENCE HEALTH
-    if re.search('news about', speech):
-      topic = speech.split('about')[-1].strip()
+    if re.search('news:', speech):
+      topic = speech.split(':')[-1].strip()
       self.searcher.topic_news(topic.upper())
 
     # ---
-    # writer section
+    # files management section
     #
-    if re.search('fix todo', speech):
-      todo = ''.join(speech.split('todo')[1:]).strip()
+    if re.search('todo:', speech):
+      todo = speech.split(':')[-1].strip()
       self.writer.mustdo(todo)
 
     if re.search('show fixed|todos', speech):
@@ -92,10 +96,10 @@ class Commander:
         self.writer.wclose(f)
 
     # ---
-    # conductor section
+    # settings & apps section
     #
-    if re.search('open|launch|start application', speech):
-      app_name = speech.split('application')[-1].strip()
+    if re.search('open|launch|start app', speech):
+      app_name = speech.split('app')[-1].strip()
       self.conductor.launch(app_name)
 
     if re.search('unlock', speech):

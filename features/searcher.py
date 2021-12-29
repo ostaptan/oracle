@@ -4,6 +4,9 @@ import subprocess
 import wikipedia
 import logging
 import peewee
+import requests
+import json
+import lxml
 
 from datetime import date
 from bs4 import BeautifulSoup as soup
@@ -62,3 +65,36 @@ class Searcher:
         Definitions.create(topic=topic, text='Cannot find anything', created_at=date.today())
         self.speaker.tell(f'Cannot find anything about {topic}')
 
+  def google(self, q):
+    headers = {
+      'User-agent':
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582"
+    }
+    params = {
+      'q': q,
+      'source': 'web'
+    }
+    html = requests.get('https://search.brave.com/search', headers=headers, params=params)
+    bs = soup(html.text, "lxml")
+    data = []
+
+    for result in bs.select('.snippet.fdb'):
+      title = result.select_one('.snippet-title').text.strip()
+      img = result.select_one('.favicon')['src']
+      link = result.a['href']
+
+      try:
+        desc = result.select_one('.snippet-description').text.strip()
+      except:
+        desc = None
+
+      data.append({
+        'title': title,
+        'desc': desc,
+        'link': link,
+        'img': img
+      })
+
+    #TODO: neural select
+    print(json.dumps(data[:4], indent=2, ensure_ascii=False))
+    self.speaker.tell(data[3]['desc'])
