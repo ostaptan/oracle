@@ -38,6 +38,7 @@ class Conductor:
     sys.exit()
 
   def sleep(self):
+    # wtf is this???
     tn = time.strftime("%H:%M", time.localtime())
     self.speaker.tell(f'Sleeping at {tn}')
     time.sleep(float(60*60*3)) # 60 secs in 60 mins 3 times
