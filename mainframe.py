@@ -7,31 +7,34 @@ import argparse
 from options import mainframe_opts
 from features.listener import Listener
 from features.speaker import Speaker
+from features.radio import Radio
 from src.commander import Commander
 from src.timer import Timer
 
 class Mainframe:
   def __init__(self, speaker):
     self.speaker = speaker
+    self.radio = Radio(speaker)
 
   def main(self, args):
-    # heavy initialization time
-    # will be replaced by net
     self.speaker.write('Initializing Core...')
     commander = Commander(self.speaker)
-    self.speaker.tell("γνῶθι σεαυτόν")
+    self.radio.greeting()
+    # must say current name
+    # compose name from mm/cw/r/names data
+    # first dummy neural net integration
 
     while True:
       if args.private:
-        print('/ORACLE>>> ', end='')
+        print('/> ', end='')
         speech = input()
       else:
         listener = Listener()
         speech = listener.mic_input()
 
+      # believe in yourself and let the force be with u
       if speech:
         commander.do(speech)
-
 if __name__ == "__main__":
   speaker = Speaker('mainframe')
   speaker.write('-------------------------------------------------------------')

@@ -1,10 +1,11 @@
 #
-# will be replaced by neural net
+# must be replaced by network
 #
 import sys
 import os
 import re
 import time
+import json
 import logging
 
 from features.listener import Listener
@@ -12,6 +13,8 @@ from features.radio import Radio
 from features.searcher import Searcher
 from features.writer import Writer
 from features.conductor import Conductor
+from features.emailer import Emailer
+from features.data_forest import DataForest
 
 class Commander:
   def __init__(self, speaker):
@@ -21,6 +24,8 @@ class Commander:
     self.conductor = Conductor(speaker)
     self.writer = Writer(speaker)
     self.searcher = Searcher(speaker)
+    self.emailer = Emailer(speaker)
+    self.data_forest = DataForest(speaker)
 
   def do(self, speech):
     if re.search('greeting', speech):
@@ -59,13 +64,39 @@ class Commander:
       self.radio.read_dial()
 
     # ---
+    # data forest section
+    #
+    if re.search('df.map', speech):
+      sys_name = os.getcwd().split('/')[2]
+      default_path = f'/Users/{sys_name}/Downloads'
+      working_dir = speech.split(':')[-1].strip() or default_path
+      fmap, stats = self.data_forest.rec_map({}, working_dir)
+      print(f'Files Map: ({len(fmap)})')
+      print(stats)
+      # print(json.dumps(fmap, indent=4, sort_keys=False))
+
+    if re.search('df.classify', speech):
+      sys_name = os.getcwd().split('/')[2]
+      default_path = f'/Users/{sys_name}/Downloads'
+      working_dir = speech.split(':')[-1].strip() or default_path
+      self.data_forest.classify(working_dir)
+
+    # must focus/saver/notetaker action to save latest speech/text/output
+    # reminder about it later
+    #
+
+    # ---
     # research section
     #
-    if re.search('google:', speech):
+    # WIP
+    # if re.search('emailer', speech):
+    #   self.emailer.map()
+
+    if re.search('google', speech):
       question = speech.split(':')[-1].strip()
       self.searcher.google(question)
 
-    if re.search('wiki:', speech):
+    if re.search('wiki', speech):
       topic = speech.split(':')[-1].strip()
       self.searcher.wiki(topic)
 
@@ -73,14 +104,14 @@ class Commander:
       self.searcher.local_news()
 
     # WORLD NATION BUSINESS TECHNOLOGY ENTERTAINMENT SPORTS SCIENCE HEALTH
-    if re.search('news:', speech):
+    if re.search('news', speech):
       topic = speech.split(':')[-1].strip()
       self.searcher.topic_news(topic.upper())
 
     # ---
     # files management section
     #
-    if re.search('todo:', speech):
+    if re.search('todo', speech):
       todo = speech.split(':')[-1].strip()
       self.writer.mustdo(todo)
 
@@ -111,7 +142,8 @@ class Commander:
     if re.search('stop|finish|shutdown|exit', speech):
       self.conductor.exit()
 
-    if re.search('sleep', speech):
-      self.conductor.sleep()
+    # if re.search('sleep', speech):
+      # cannot interrupt this one
+      # self.conductor.sleep()
 
 
