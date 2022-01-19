@@ -2,9 +2,6 @@
 
 ## [Installation steps wiki](https://github.com/ostaptan/oracle/wiki/Installation)
 
-## Check data folder
-
-You need to get several datasets in ./data/ directory from my master
 
 ## Mainframe Usage
 

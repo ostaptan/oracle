@@ -42,4 +42,3 @@ def main(city):
   json_data = requests.get(final_url).json()
   wp = WeatherPuller(json_data)
   return wp.format_speech(city)
-

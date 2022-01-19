@@ -1,15 +1,15 @@
 import sys
 import select
-import os
+import json
 import logging
 import argparse
+import websocket
 
 from options import mainframe_opts
 from features.listener import Listener
 from features.speaker import Speaker
 from features.radio import Radio
 from src.commander import Commander
-from src.timer import Timer
 
 class Mainframe:
   def __init__(self, speaker):
@@ -35,6 +35,7 @@ class Mainframe:
       # believe in yourself and let the force be with u
       if speech:
         commander.do(speech)
+
 if __name__ == "__main__":
   speaker = Speaker('mainframe')
   speaker.write('-------------------------------------------------------------')
