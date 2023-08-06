@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import random
-import pyaudio
+# import pyaudio
 import speech_recognition as sr
 
 from src.mic_recognizer import SpeechRecognition

@@ -6,7 +6,7 @@ import argparse
 import websocket
 
 from options import mainframe_opts
-from features.listener import Listener
+# from features.listener import Listener
 from features.speaker import Speaker
 from features.radio import Radio
 from src.commander import Commander
@@ -25,12 +25,12 @@ class Mainframe:
     # first dummy neural net integration
 
     while True:
-      if args.private:
-        print('/> ', end='')
-        speech = input()
-      else:
-        listener = Listener()
-        speech = listener.mic_input()
+      # if args.private:
+      print('/> ', end='')
+      speech = input()
+      # else:
+      #   listener = Listener()
+      #   speech = listener.mic_input()
 
       # believe in yourself and let the force be with u
       if speech:

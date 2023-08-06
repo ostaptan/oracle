@@ -19,15 +19,10 @@ class Radio:
   def __init__(self, speaker):
     self.speaker = speaker
 
-  def __notify(self, title, text):
-    os.system("""
-              osascript -e 'display notification "{}" with title "{}"' with timeout of 86400 seconds end timeout
-              """.format(text, title))
-
   def greeting(self):
     sys_name = os.getcwd().split('/')[2]
     text = f'Welcome, master {sys_name}!'
-    self.__notify('γνῶθι σεαυτόν!', text)
+    self.speaker.tell('γνῶθι σεαυτόν!')
     self.speaker.tell(text)
 
   def aphorism(self):

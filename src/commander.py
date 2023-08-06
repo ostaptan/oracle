@@ -8,7 +8,7 @@ import time
 import json
 import logging
 
-from features.listener import Listener
+# from features.listener import Listener
 from features.radio import Radio
 from features.searcher import Searcher
 from features.writer import Writer
@@ -18,7 +18,7 @@ from features.data_forest import DataForest
 
 class Commander:
   def __init__(self, speaker):
-    self.listener = Listener()
+    # self.listener = Listener()
     self.speaker = speaker
     self.radio = Radio(speaker)
     self.conductor = Conductor(speaker)
